@@ -10,6 +10,13 @@ const Sidebar = () => {
       </div>
       <nav style={{ flex: 1, marginTop: '2rem' }}>
         <NavLink 
+          to="/dashboard" 
+          className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+        >
+          <LayoutDashboard size={20} />
+          Dashboard
+        </NavLink>
+        <NavLink 
           to="/employees" 
           className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
         >

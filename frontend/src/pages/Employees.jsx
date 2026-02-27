@@ -1,9 +1,9 @@
+import { useState, useEffect } from 'react';
 import { Plus, Trash2, Search, Loader2, Users } from 'lucide-react';
 import api from '../services/api';
 import PageHeader from '../components/PageHeader';
 import Modal from '../components/Modal';
 import { LoadingState, ErrorState, EmptyState } from '../components/UIStates';
-import api from '../services/api';
 
 const Employees = () => {
   const [employees, setEmployees] = useState([]);

@@ -1,5 +1,8 @@
 from rest_framework import viewsets, filters, status
+from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.db.models import Count, Q
+from django.utils import timezone
 from django.db import IntegrityError
 from .models import Employee, Attendance
 from .serializers import EmployeeSerializer, AttendanceSerializer
@@ -51,3 +54,22 @@ class AttendanceViewSet(viewsets.ModelViewSet):
         if date:
             queryset = queryset.filter(date=date)
         return queryset
+
+class DashboardAPIView(APIView):
+    def get(self, request):
+        today = timezone.now().date()
+        total_employees = Employee.objects.count()
+        present_today = Attendance.objects.filter(date=today, status='Present').count()
+        absent_today = Attendance.objects.filter(date=today, status='Absent').count()
+        
+        # Display total present days per employee
+        employee_stats = Employee.objects.annotate(
+            total_present=Count('attendances', filter=Q(attendances__status='Present'))
+        ).values('employee_id', 'full_name', 'department', 'total_present').order_by('-total_present')
+        
+        return Response({
+            'total_employees': total_employees,
+            'present_today': present_today,
+            'absent_today': absent_today,
+            'employee_stats': list(employee_stats)
+        })
