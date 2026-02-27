@@ -51,7 +51,12 @@ const Employees = () => {
       fetchEmployees();
     } catch (err) {
       if (err.response && err.response.data) {
-        setAddingError(err.response.data.detail || JSON.stringify(err.response.data));
+        const data = err.response.data;
+        const errMsg = data.detail || 
+                       data.employee_id?.[0] || 
+                       data.email?.[0] || 
+                       'Validation failed. An employee with this ID or Email might already exist.';
+        setAddingError(errMsg);
       } else {
         setAddingError('An error occurred while adding the employee.');
       }

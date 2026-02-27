@@ -69,7 +69,12 @@ const Attendance = () => {
       fetchAttendance();
     } catch (err) {
       if (err.response && err.response.data) {
-        setMarkError(err.response.data.detail || JSON.stringify(err.response.data));
+        const data = err.response.data;
+        const errMsg = data.detail || 
+                       data.non_field_errors?.[0] || 
+                       data.employee_id?.[0] || 
+                       'Validation failed. Ensure employee is selected and no duplicate attendance exists for today.';
+        setMarkError(errMsg);
       } else {
         setMarkError('An error occurred while marking attendance.');
       }
