@@ -67,7 +67,3 @@ npm run dev
 ```
 The frontend will run at `http://localhost:5173/` (or another port specified by Vite).
 
-## Assumptions / Limitations
-- **Single Admin User:** As per the requirements, there is no robust authentication or role-based access control (RBAC). The application assumes a single admin user workflow.
-- **Database Choice:** SQLite is used for simplicity and rapid prototyping locally. In a real-world scenario, PostgreSQL is highly recommended to handle concurrent attendance requests securely.
-- **Soft Deletes:** Employee deletion is a hard-delete (`CASCADE` effect on attendance). In real systems, "soft deletes" or marking as inactive is preferred to retain historical attendance data.
